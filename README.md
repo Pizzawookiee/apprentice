@@ -1,6 +1,6 @@
 # The AI Apprentice
 
-A runnable Capture → Work Map → Teach MVP for the Hack Nation × ElevenLabs challenge. It uses a synthetic accounts-payable sandbox: three expert invoices and two unseen new-hire cases. See [COMPLIANCE.md](COMPLIANCE.md) for requirement coverage and limits.
+A runnable Capture → Work Map → Teach MVP for the Hack Nation × ElevenLabs challenge. It uses a synthetic accounts-payable sandbox: three expert invoices and two unseen new-hire cases. See [DEMO_SCRIPT.md](DEMO_SCRIPT.md) for the full click-through and acceptance checks, and [COMPLIANCE.md](COMPLIANCE.md) for requirement coverage and limits.
 
 ## Run locally
 
