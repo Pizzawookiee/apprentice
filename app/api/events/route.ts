@@ -1,0 +1,6 @@
+import { NextRequest, NextResponse } from "next/server";
+import { z } from "zod";
+import { database } from "@/lib/db";
+import { sanitizeValue } from "@/lib/privacy";
+const schema=z.object({event:z.object({eventId:z.string(),sessionId:z.string(),ts:z.number(),source:z.enum(["native_app","browser_observer","vision","speech"]),kind:z.string(),actor:z.enum(["expert","trainee"]),object:z.object({type:z.string(),id:z.string().optional()}).optional(),action:z.string().optional()}).passthrough(),offRecord:z.boolean().optional()});
+export async function POST(request:NextRequest){const parsed=schema.safeParse(await request.json().catch(()=>null));if(!parsed.success)return NextResponse.json({error:"Invalid event"},{status:400});if(parsed.data.offRecord)return NextResponse.json({discarded:true});const event=sanitizeValue(parsed.data.event) as typeof parsed.data.event;const db=database();if(db){try{await db`INSERT INTO workflow_events (id, session_id, ts, source, kind, actor, payload) VALUES (${event.eventId}, ${event.sessionId}, ${new Date(event.ts).toISOString()}, ${event.source}, ${event.kind}, ${event.actor}, ${JSON.stringify(event)}::jsonb) ON CONFLICT (id) DO NOTHING`;}catch{return NextResponse.json({error:"Persistence unavailable"},{status:503})}}return NextResponse.json({accepted:true,persisted:!!db});}

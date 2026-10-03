@@ -1,0 +1,11 @@
+CREATE TABLE IF NOT EXISTS sessions (id text PRIMARY KEY, started_at timestamptz NOT NULL, state jsonb NOT NULL);
+CREATE TABLE IF NOT EXISTS workflow_events (id text PRIMARY KEY, session_id text NOT NULL, ts timestamptz NOT NULL, source text NOT NULL, kind text NOT NULL, actor text NOT NULL, payload jsonb NOT NULL);
+CREATE TABLE IF NOT EXISTS decision_episodes (id text PRIMARY KEY, session_id text NOT NULL, action_ts timestamptz NOT NULL, decision_type text NOT NULL, context jsonb NOT NULL, epistemic_status text NOT NULL);
+CREATE TABLE IF NOT EXISTS transcript_turns (id text PRIMARY KEY, session_id text NOT NULL, started_at timestamptz NOT NULL, sanitized_text text NOT NULL);
+CREATE TABLE IF NOT EXISTS workflows (id text PRIMARY KEY, name text NOT NULL, status text NOT NULL);
+CREATE TABLE IF NOT EXISTS workflow_steps (id text PRIMARY KEY, workflow_id text NOT NULL, sequence integer NOT NULL, title text NOT NULL);
+CREATE TABLE IF NOT EXISTS knowledge_nodes (id text PRIMARY KEY, step_id text NOT NULL, kind text NOT NULL, content text NOT NULL, structured jsonb NOT NULL, confirmed boolean NOT NULL, confidence real NOT NULL);
+CREATE TABLE IF NOT EXISTS evidence_refs (id text PRIMARY KEY, decision_id text NOT NULL, kind text NOT NULL, locator text NOT NULL);
+CREATE TABLE IF NOT EXISTS pending_questions (id text PRIMARY KEY, decision_id text NOT NULL, question_type text NOT NULL, priority real NOT NULL, status text NOT NULL, mode text NOT NULL);
+CREATE TABLE IF NOT EXISTS trainee_attempts (id text PRIMARY KEY, session_id text NOT NULL, invoice_id text NOT NULL, choice text NOT NULL, blocked boolean NOT NULL, created_at timestamptz NOT NULL);
+CREATE TABLE IF NOT EXISTS artifact_extractions (id text PRIMARY KEY, session_id text NOT NULL, artifact_id text NOT NULL, extraction jsonb NOT NULL);

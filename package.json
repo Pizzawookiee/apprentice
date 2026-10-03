@@ -1,0 +1,30 @@
+{
+  "name": "ai-apprentice",
+  "version": "0.1.0",
+  "private": true,
+  "engines": { "node": ">=22.22" },
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "typecheck": "tsc --noEmit",
+    "test": "node --test tests/*.test.mjs"
+  },
+  "dependencies": {
+    "@elevenlabs/react": "^1.16.0",
+    "@neondatabase/serverless": "^1.0.0",
+    "drizzle-orm": "^0.45.3",
+    "lucide-react": "^0.468.0",
+    "next": "^16.0.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "zod": "^4.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "drizzle-kit": "^0.31.0",
+    "typescript": "^5.7.0"
+  }
+}
