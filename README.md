@@ -1,6 +1,6 @@
 # The AI Apprentice
 
-A runnable Capture → Work Map → Teach MVP for the Hack Nation × ElevenLabs challenge. It uses a synthetic accounts-payable sandbox: three expert invoices and two unseen new-hire cases. See [DEMO_SCRIPT.md](DEMO_SCRIPT.md) for the full click-through and acceptance checks, and [COMPLIANCE.md](COMPLIANCE.md) for requirement coverage and limits.
+A runnable Capture → Work Map → Teach MVP for the Hack Nation × ElevenLabs challenge. It uses a synthetic accounts-payable sandbox: three expert invoices and two unseen new-hire cases. See [DEMO_SCRIPT.md](DEMO_SCRIPT.md) for the full click-through and acceptance checks.
 
 ## Run locally
 
@@ -30,16 +30,6 @@ Copy `.env.example` to `.env.local` and provide the relevant values. Never use `
 - **Neon**: Provision through Vercel, set `DATABASE_URL`, then apply `drizzle/0000_init.sql` to development first, then production. The app mirrors sanitized sessions and events to Neon. `/api/health` reports connectivity.
 - **Presidio**: Deploy `api/presidio.py` with `requirements.txt` and set `PRESIDIO_URL` to its HTTPS endpoint. `/api/privacy` applies built-in recognizers first and Presidio when reachable. Verify `provider=Presidio` in a production test.
 - **MCP**: Set `MCP_SHARED_SECRET`; register `https://YOUR_APP/api/mcp` as a Streamable HTTP server in ElevenLabs with `Authorization: Bearer ...`. Auto-approve the five read tools only. Keep `save_expert_answer` and `mark_question_resolved` approval-gated. MCP requires Neon state.
-
-### ElevenAgent Teach instructions
-
-Add this to the agent's dashboard system prompt. The app sends `teach_current_invoice` on connection and on each Teach case change, using the same context ID so the newest case supersedes the prior one:
-
-> When the app says `mode: tutor`, use the newest `teach_current_invoice` and its ID, supplier, amount, description, category, asset number, subsidiary, and risk flag as the current case. These fields are already visible to the trainee; do not ask for screen sharing or say you cannot see the invoice. Ask the trainee which action they would take before explaining the rule. Use only confirmed expert rules supplied by the app or its read-only tools. If a necessary fact or confirmed rule is absent, identify that specific gap and ask the trainee to stop and check with the expert or controller. Do not invent a policy or claim the hidden expected decision is known. For a message beginning `APP_TUTOR_FEEDBACK:`, speak only the supplied sentence exactly once, with no preface, quotation, extra question, or phrase such as “Pause before saving.” In Capture mode, ask one short question at a natural pause and treat only the expert's Capture answers as expert explanations.
-
-## Privacy and evidence
-
-Full recordings and routine frames are never stored. A local two-second sampler records change scores; configured vision analyzes ephemeral frames and structured ERP events carry canonical action times. Share only the synthetic ERP tab during the live vision demo. Off-the-record mode stops new durable writes and frame uploads, disconnects voice, clears queued questions, and rolls back the private interval on return. Free-form answers pass through `/api/privacy` before persistence. The demo PDFs and firms are fictional.
 
 ## Deployment
 
